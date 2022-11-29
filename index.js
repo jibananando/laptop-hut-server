@@ -19,13 +19,38 @@ async function run() {
     try {
         const productsCollection = client.db('laptopHut').collection('products');
         const bookingCollection = client.db('laptopHut').collection('booking');
+        const userCollection = client.db('laptopHut').collection('user');
 
-
+        app.get('/products', async (req, res) => {
+            const category = req.query.category;
+            const query = { category: category };
+            const options = await productsCollection.find(query).toArray();
+            res.send(options);
+        })
         app.post('/booking', async (req, res) => {
             const body = req.body;
             const options = await bookingCollection.insertOne(body);
             res.send(options);
         })
+        app.get('/myorders', async (req, res) => {
+            const email = req.query.email;
+            const query = { buyerEmail: email };
+            const options = await bookingCollection.find(query).toArray();
+            res.send(options);
+        })
+        app.get('/myproducts', async (req, res) => {
+            const email = req.query.email;
+            const query = { sellerEmail: email };
+            const options = await productsCollection.find(query).toArray();
+            res.send(options);
+        })
+        app.get('/user', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const options = await userCollection.findOne(query);
+            res.send(options);
+        })
+
     }
     finally {
 
