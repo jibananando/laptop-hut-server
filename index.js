@@ -33,12 +33,7 @@ async function run() {
             const options = await bookingCollection.insertOne(body);
             res.send(options);
         })
-        app.get('/myorders', async (req, res) => {
-            const email = req.query.email;
-            const query = { buyerEmail: email };
-            const options = await bookingCollection.find(query).toArray();
-            res.send(options);
-        })
+
         app.get('/myproducts', async (req, res) => {
             const email = req.query.email;
             const query = { sellerEmail: email };
