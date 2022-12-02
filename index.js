@@ -86,8 +86,14 @@ async function run() {
             const options = await productsCollection.deleteOne(query);
             res.send(options);
         })
+        app.get('/allSellersAndBuyers', async (req, res) => {
+            const role = req.query.role;
+            const query = { role: role };
+            const options = await userCollection.find(query).toArray();
+            res.send(options);
+        })
 
-        // allSellersAndBuyers
+        // deleteSellerAndBuyer
     }
     finally {
 
