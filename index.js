@@ -45,6 +45,18 @@ async function run() {
             const options = await productsCollection.find(query).toArray();
             res.send(options);
         })
+        //add & update  user
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: user
+            }
+            const result = await userCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+        })
         app.get('/user', async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
@@ -62,7 +74,11 @@ async function run() {
             console.log(user);
             res.status(403).send({ accessToken: '' })
         })
-
+        app.post('/addProduct', async (req, res) => {
+            const body = req.body;
+            const options = await productsCollection.insertOne(body);
+            res.send(options);
+        })
     }
     finally {
 
