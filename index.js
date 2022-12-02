@@ -92,8 +92,14 @@ async function run() {
             const options = await userCollection.find(query).toArray();
             res.send(options);
         })
+        app.delete('/deleteSellerAndBuyer/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const options = await userCollection.deleteOne(query);
+            res.send(options);
+        })
 
-        // deleteSellerAndBuyer
+
     }
     finally {
 
